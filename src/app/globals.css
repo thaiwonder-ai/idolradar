@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,19 +10,28 @@
    ======================================== */
 
 :root {
-  /* Brand Colors */
-  --neon-pink: #ff006e;
-  --neon-cyan: #00f4ff;
-  --neon-purple: #8338ec;
+  /* Brand Colors — Refined Neon Palette */
+  --neon-pink: #FF2D78;
+  --neon-cyan: #00F5FF;
+  --neon-purple: #BF5AF2;
+  --neon-green: #30D158;
   --neon-blue: #3a86ff;
   --spotify-green: #1db954;
 
-  /* Background Colors */
+  /* Surface Colors */
+  --surface-0: #000000;
+  --surface-1: #0A0A0F;
+  --surface-2: #12121A;
+  --surface-3: #1A1A26;
+  --surface-glass: rgba(255,255,255,0.05);
+  --border-subtle: rgba(255,255,255,0.08);
+
+  /* Legacy aliases (keep existing code working) */
   --bg-pure: #000000;
-  --bg-dark: #0a0a0a;
-  --bg-card: #111111;
-  --bg-elevated: #1a1a1a;
-  --bg-surface: #161616;
+  --bg-dark: #0A0A0F;
+  --bg-card: #12121A;
+  --bg-elevated: #1A1A26;
+  --bg-surface: #0F0F16;
 
   /* Gradients */
   --gradient-main: linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-cyan));
@@ -924,3 +935,625 @@ body {
 .category-pill.event        { background: rgba(255, 0, 110, 0.15); color: #ff6b9d; border: 1px solid rgba(255, 0, 110, 0.3); }
 .category-pill.achievement  { background: rgba(29, 185, 84, 0.15); color: #1db954; border: 1px solid rgba(29, 185, 84, 0.3); }
 .category-pill.collaboration{ background: rgba(131, 56, 236, 0.15); color: #b07aff; border: 1px solid rgba(131, 56, 236, 0.3); }
+
+/* ========================================
+   Ripple Effect
+   ======================================== */
+.ripple-container { position: relative; overflow: hidden; }
+
+@keyframes ripple-out {
+  0%   { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  animation: ripple-out 0.6s ease-out forwards;
+  transform-origin: center;
+}
+
+/* ========================================
+   Spring Animation
+   ======================================== */
+@keyframes spring-pop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  80%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spring-bounce {
+  0%   { transform: translateY(0) scale(1); }
+  30%  { transform: translateY(-6px) scale(1.05); }
+  60%  { transform: translateY(2px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.animate-spring-pop  { animation: spring-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.animate-spring-bounce { animation: spring-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* ========================================
+   Story Progress Bar
+   ======================================== */
+@keyframes story-progress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.story-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: white;
+  animation: story-progress 5s linear forwards;
+}
+
+.story-progress-track {
+  height: 2px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* ========================================
+   Rotating Gradient Ring (Stories)
+   ======================================== */
+@keyframes rotate-gradient {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.story-ring-animated {
+  position: relative;
+  padding: 2.5px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.story-ring-animated::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-cyan),
+    var(--neon-pink)
+  );
+  animation: rotate-gradient 3s linear infinite;
+  z-index: -1;
+}
+
+.story-ring-animated::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--surface-0);
+  z-index: 0;
+}
+
+.story-ring-animated img {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Glassmorphism Enhanced
+   ======================================== */
+.glass-ultra {
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+}
+
+/* ========================================
+   Gradient Border Enhanced
+   ======================================== */
+.gradient-border-animated {
+  position: relative;
+  border-radius: 20px;
+  background: var(--surface-2);
+}
+
+.gradient-border-animated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: 20px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-cyan),
+    var(--neon-pink)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-spin {
+  to { --angle: 360deg; }
+}
+
+.gradient-border-animated:hover::before {
+  animation: border-spin 3s linear infinite;
+}
+
+/* ========================================
+   Scrollbar Refined
+   ======================================== */
+* { scrollbar-width: thin; scrollbar-color: rgba(191, 90, 242, 0.4) transparent; }
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--neon-pink), var(--neon-purple));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--neon-pink), var(--neon-cyan));
+}
+
+/* ========================================
+   TikTok Vertical Swipe Cards
+   ======================================== */
+.tiktok-card-stack {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  max-height: 700px;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.tiktok-card {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+  border-radius: 24px;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.tiktok-card.active  { transform: translateY(0); opacity: 1; z-index: 2; }
+.tiktok-card.prev    { transform: translateY(-105%); opacity: 0; z-index: 1; }
+.tiktok-card.next    { transform: translateY(105%); opacity: 0; z-index: 1; }
+.tiktok-card.hidden  { opacity: 0; z-index: 0; }
+
+.tiktok-side-actions {
+  position: absolute;
+  right: 12px;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  z-index: 10;
+}
+
+.tiktok-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tiktok-action-btn:active { transform: scale(0.85); }
+
+.tiktok-action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.tiktok-action-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+}
+
+.tiktok-nav-btn {
+  position: absolute;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.tiktok-nav-btn:hover { background: rgba(255,255,255,0.22); }
+.tiktok-nav-btn.up { bottom: 200px; }
+.tiktok-nav-btn.down { bottom: 155px; }
+
+/* ========================================
+   Spotify Wrapped Stats
+   ======================================== */
+.spotify-stat-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+
+.spotify-stat-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.spotify-stat-fill.animated {
+  /* width set via inline style */
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stat-counter { animation: count-up 0.6s ease-out forwards; }
+
+/* ========================================
+   Quick Peek Modal
+   ======================================== */
+.quick-peek-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fade-in 0.2s ease-out;
+}
+
+.quick-peek-modal {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface-2);
+  border-radius: 28px 28px 0 0;
+  border: 1px solid var(--border-subtle);
+  border-bottom: none;
+  padding: 28px 24px 40px;
+  animation: slide-up 0.35s cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+.quick-peek-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.2);
+  margin: 0 auto 20px;
+}
+
+/* ========================================
+   Floating Action Button
+   ======================================== */
+.fab-container {
+  position: fixed;
+  bottom: 90px;
+  right: 16px;
+  z-index: 49;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.fab-main {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(255, 45, 120, 0.45), 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.fab-main:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 32px rgba(255, 45, 120, 0.55);
+}
+
+.fab-main.open { transform: rotate(45deg); }
+
+.fab-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px) scale(0.8);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.fab-item.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.fab-item-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.fab-item-label {
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* ========================================
+   Bottom Nav Upgraded
+   ======================================== */
+.bottom-nav-item.active .nav-label {
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bottom-nav-item.active .nav-icon {
+  position: relative;
+}
+
+.bottom-nav-item.active .nav-icon::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
+  box-shadow: 0 0 6px var(--neon-pink);
+}
+
+/* ========================================
+   News Card Left Accent Border
+   ======================================== */
+.news-card-accent {
+  position: relative;
+}
+
+.news-card-accent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 0 0 0 20px;
+}
+
+.news-card-accent.event::after    { background: var(--neon-pink); }
+.news-card-accent.achievement::after { background: var(--neon-green); }
+.news-card-accent.collaboration::after { background: var(--neon-purple); }
+
+/* ========================================
+   Particle Dots (Hero)
+   ======================================== */
+@keyframes particle-float {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
+  33%  { transform: translateY(-20px) translateX(10px) scale(1.1); opacity: 0.8; }
+  66%  { transform: translateY(-10px) translateX(-8px) scale(0.9); opacity: 0.5; }
+  100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-float var(--duration, 6s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ========================================
+   CTA Button with Ripple
+   ======================================== */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(255, 45, 120, 0.4);
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(255, 45, 120, 0.5);
+}
+
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 30px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   Idol Card — Rank Badge
+   ======================================== */
+.rank-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  color: white;
+  flex-shrink: 0;
+}
+
+.rank-badge.gold   { background: linear-gradient(135deg, #FFD700, #FFA500); }
+.rank-badge.silver { background: linear-gradient(135deg, #C0C0C0, #A0A0A0); color: #333; }
+.rank-badge.bronze { background: linear-gradient(135deg, #CD7F32, #8B4513); }
+
+/* ========================================
+   Trending Indicator
+   ======================================== */
+.trending-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(255, 45, 120, 0.18);
+  border: 1px solid rgba(255, 45, 120, 0.3);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--neon-pink);
+}
+
+/* ========================================
+   Section Header Upgrades
+   ======================================== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   Horizontal Reels Scroll Strip
+   ======================================== */
+.reels-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.reels-strip::-webkit-scrollbar { display: none; }
+
+/* ========================================
+   Parallax Hero
+   ======================================== */
+.hero-parallax-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ========================================
+   Number Counter Animation
+   ======================================== */
+@keyframes number-pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.number-pop { animation: number-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
