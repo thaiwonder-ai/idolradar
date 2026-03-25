@@ -734,3 +734,193 @@ body {
   outline: none;
   box-shadow: 0 0 0 3px rgba(131, 56, 236, 0.5);
 }
+
+/* ========================================
+   Viral Reels — TikTok Style
+   ======================================== */
+.reel-card {
+  position: relative;
+  width: 130px;
+  height: 231px;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--bg-card);
+}
+
+.reel-card:hover { transform: scale(1.05); }
+
+.reel-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.reel-card:hover .reel-play {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ========================================
+   Artist Spotlight Card
+   ======================================== */
+.spotlight-card {
+  background: var(--bg-card);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spotlight-card:hover {
+  border-color: rgba(255, 0, 110, 0.3);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 0, 110, 0.08);
+}
+
+.spotlight-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ========================================
+   Now Playing Bar — Spotify Style (Desktop)
+   ======================================== */
+.now-playing-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  z-index: 45;
+  background: rgba(8, 8, 8, 0.97);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  align-items: center;
+}
+
+.progress-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-track:hover { background: rgba(255, 255, 255, 0.18); }
+
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+  transition: width 0.3s ease;
+}
+
+.progress-track:hover .progress-fill {
+  background: var(--spotify-green);
+}
+
+@keyframes progress-advance {
+  from { width: 35%; }
+  to   { width: 100%; }
+}
+
+.progress-fill.playing {
+  animation: progress-advance 180s linear forwards;
+}
+
+/* ========================================
+   Stat Cards — Hero Section
+   ======================================== */
+.stat-card {
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+/* ========================================
+   Section Tag Pill
+   ======================================== */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ========================================
+   Notification Dot
+   ======================================== */
+.notif-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--neon-pink);
+  border: 1.5px solid #000;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+}
+
+/* ========================================
+   Idol Card — Platform badge improvement
+   ======================================== */
+.platform-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+}
+
+/* ========================================
+   News Category Improvements
+   ======================================== */
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.category-pill.event        { background: rgba(255, 0, 110, 0.15); color: #ff6b9d; border: 1px solid rgba(255, 0, 110, 0.3); }
+.category-pill.achievement  { background: rgba(29, 185, 84, 0.15); color: #1db954; border: 1px solid rgba(29, 185, 84, 0.3); }
+.category-pill.collaboration{ background: rgba(131, 56, 236, 0.15); color: #b07aff; border: 1px solid rgba(131, 56, 236, 0.3); }
