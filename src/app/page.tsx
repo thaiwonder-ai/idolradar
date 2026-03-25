@@ -21,7 +21,7 @@ const SearchIcon = () => (
 
 const FireIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 23c-3.866 0-7-3.134-7-7 0-2.017.858-4.002 2.457-5.607l.624-.381C8.605 9.347 9.682 8.5 11 8.5c1.657 0 3.156.842 4.071 2.185l.381.557C16.563 12.808 17 14.336 17 16c0 2.761-2.239 5-5 5z"/>
+    <path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-1 .23-1.98.68-2.83 1.22-.86.54-1.6 1.25-2.18 2.07-.6.84-1.02 1.8-1.2 2.8-.1.5-.14 1.02-.12 1.52.03 1.2.33 2.38.91 3.4.59 1.02 1.46 1.87 2.49 2.44 1.02.56 2.17.83 3.34.78 1.17-.06 2.31-.43 3.27-1.1 1.17-.83 1.98-2.02 2.22-3.36.07-.37.1-.74.08-1.1-.01-.37-.09-.73-.2-1.08-.11-.35-.26-.7-.45-1.01z"/>
   </svg>
 );
 
@@ -86,8 +86,8 @@ const ChevronDown = () => (
   </svg>
 );
 
-const HeartIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+const HeartIcon = ({ filled = false }: { filled?: boolean }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill={filled ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
   </svg>
 );
@@ -95,6 +95,12 @@ const HeartIcon = () => (
 const PlusIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
+  </svg>
+);
+
+const NewsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
   </svg>
 );
 
@@ -118,7 +124,7 @@ const hotChart = [
 
 // Stories data
 const storyIdols = [
-  { id: 'add', name: 'Your Story', image: '', isAdd: true },
+  { id: 'add', name: '', image: '', isAdd: true },
   { id: '1', name: 'TWICE', image: 'https://picsum.photos/seed/twice/100/100', isLive: true, viewed: false },
   { id: '2', name: 'Lisa', image: 'https://picsum.photos/seed/lisa/100/100', isLive: false, viewed: false },
   { id: '3', name: 'NewJeans', image: 'https://picsum.photos/seed/newjeans/100/100', isLive: false, viewed: false },
@@ -126,16 +132,28 @@ const storyIdols = [
   { id: '5', name: 'BLACKPINK', image: 'https://picsum.photos/seed/bp/100/100', isLive: true, viewed: false },
   { id: '6', name: 'aespa', image: 'https://picsum.photos/seed/aespa/100/100', isLive: false, viewed: true },
   { id: '7', name: 'IVE', image: 'https://picsum.photos/seed/ive/100/100', isLive: false, viewed: false },
+  { id: '8', name: 'Stray Kids', image: 'https://picsum.photos/seed/skz/100/100', isLive: false, viewed: false },
 ];
 
 export default function Home() {
   const [lang, setLang] = useState<Language>('zh-TW');
   const [search, setSearch] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeNav, setActiveNav] = useState('home');
+  const [likedIdols, setLikedIdols] = useState<Set<string>>(new Set());
 
   useEffect(() => { setMounted(true); }, []);
+
+  const toggleLike = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setLikedIdols(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
 
   const navLinks = [
     { key: 'nav.home', href: '#home' },
@@ -150,7 +168,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white overflow-x-hidden pb-20 lg:pb-0">
 
-      {/* ── Background Effects ── */}
+      {/* ── Ambient Background ── */}
       <div className="fixed inset-0 hero-bg -z-10" />
       <div className="fixed inset-0 hero-grid -z-10" />
       <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-purple-600/8 rounded-full blur-[140px] -z-10 animate-float" />
@@ -195,25 +213,33 @@ export default function Home() {
             <div className="flex items-center gap-2">
 
               {/* Language Picker */}
-              <div className="relative group">
-                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/8 hover:border-white/15 transition-all text-sm">
+              <div className="relative">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/8 hover:border-white/15 transition-all text-sm"
+                >
                   <span>{currentLangObj?.flag}</span>
                   <span className="hidden sm:inline text-white/70 text-xs">{currentLangObj?.name}</span>
                   <ChevronDown />
                 </button>
-                <div className="absolute top-full right-0 mt-2 w-48 py-1.5 rounded-2xl bg-[#181818] border border-white/8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-2xl z-50">
-                  {languages.map(l => (
-                    <button
-                      key={l.code}
-                      onClick={() => setLang(l.code)}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors ${lang === l.code ? 'text-[#00f4ff]' : 'text-white/65'}`}
-                    >
-                      <span>{l.flag}</span>
-                      <span className="text-sm">{l.name}</span>
-                      {lang === l.code && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#00f4ff]" />}
-                    </button>
-                  ))}
-                </div>
+                {langOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                    <div className="absolute top-full right-0 mt-2 w-52 py-1.5 rounded-2xl bg-[#181818] border border-white/8 shadow-2xl z-50 max-h-80 overflow-y-auto">
+                      {languages.map(l => (
+                        <button
+                          key={l.code}
+                          onClick={() => { setLang(l.code); setLangOpen(false); }}
+                          className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5 transition-colors ${lang === l.code ? 'text-[#00f4ff]' : 'text-white/65'}`}
+                        >
+                          <span>{l.flag}</span>
+                          <span className="text-sm">{l.name}</span>
+                          {lang === l.code && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#00f4ff]" />}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Mobile menu toggle */}
@@ -258,15 +284,13 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff006e] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff006e]" />
             </span>
-            <span className="text-xs sm:text-sm text-white/65 font-medium">
-              {lang === 'zh-TW' ? '全球偶像即時資訊平台' : lang === 'ja' ? 'グローバル・アイドル・プラットフォーム' : lang === 'ko' ? '글로벌 아이돌 실시간 플랫폼' : 'Global Idol Live Platform'}
-            </span>
+            <span className="text-xs sm:text-sm text-white/65 font-medium">{t(lang, 'hero.eyebrow')}</span>
           </div>
 
           {/* Title */}
           <h1 className={`text-5xl sm:text-6xl lg:text-8xl font-black mb-5 sm:mb-7 tracking-tighter leading-[0.9] ${mounted ? 'animate-fade-in stagger-1' : 'opacity-0'}`}>
-            <span className="block text-white">Your</span>
-            <span className="block gradient-text mt-1">Idol Hub</span>
+            <span className="block text-white">{t(lang, 'hero.title1')}</span>
+            <span className="block gradient-text mt-1">{t(lang, 'hero.title2')}</span>
           </h1>
 
           {/* Subtitle */}
@@ -289,7 +313,7 @@ export default function Home() {
                 className="flex-1 py-4 bg-transparent text-white placeholder-white/25 focus:outline-none text-sm sm:text-base"
               />
               <button className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#ff006e] to-[#8338ec] text-white font-semibold text-sm hover:shadow-lg hover:shadow-[#ff006e]/30 transition-all whitespace-nowrap">
-                {t(lang, 'nav.home') === '首頁' ? '搜尋' : t(lang, 'nav.home') === 'ホーム' ? '検索' : t(lang, 'nav.home') === '홈' ? '검색' : 'Search'}
+                {t(lang, 'search.btn')}
               </button>
             </div>
           </div>
@@ -297,9 +321,9 @@ export default function Home() {
           {/* Stats */}
           <div className={`flex flex-wrap justify-center gap-10 sm:gap-16 mt-14 sm:mt-18 ${mounted ? 'animate-fade-in stagger-4' : 'opacity-0'}`}>
             {[
-              { num: '500+', label: lang === 'zh-TW' ? '活躍偶像' : lang === 'ja' ? 'アイドル' : lang === 'ko' ? '아이돌' : 'Active Idols' },
-              { num: '50K+', label: lang === 'zh-TW' ? '粉絲會員' : lang === 'ja' ? 'ファン' : lang === 'ko' ? '팬 회원' : 'Fan Members' },
-              { num: '10', label: lang === 'zh-TW' ? '支援語言' : lang === 'ja' ? '言語対応' : lang === 'ko' ? '지원 언어' : 'Languages' },
+              { num: '500+', label: t(lang, 'stat.idols') },
+              { num: '50K+', label: t(lang, 'stat.fans') },
+              { num: '10', label: t(lang, 'stat.languages') },
             ].map(s => (
               <div key={s.num} className="stat-item">
                 <div className="stat-number">{s.num}</div>
@@ -324,10 +348,10 @@ export default function Home() {
               ) : (
                 <div className={`story-ring ${story.viewed ? 'viewed' : story.isLive ? 'live-ring' : ''}`}>
                   <img src={story.image} alt={story.name} className="story-avatar" />
-                  {story.isLive && <div className="live-badge">LIVE</div>}
+                  {story.isLive && <div className="live-badge">{t(lang, 'live')}</div>}
                 </div>
               )}
-              <span className="story-name">{story.name}</span>
+              <span className="story-name">{story.isAdd ? (lang === 'zh-TW' || lang === 'zh-CN' ? '新增' : lang === 'ja' ? '追加' : lang === 'ko' ? '추가' : 'Add') : story.name}</span>
             </div>
           ))}
         </div>
@@ -373,18 +397,18 @@ export default function Home() {
             </div>
           </div>
           <a href="#" className="flex items-center gap-1 text-sm text-[#00f4ff] hover:text-[#00f4ff]/75 transition font-medium">
-            {lang === 'zh-TW' ? '全部' : lang === 'ja' ? 'すべて' : lang === 'ko' ? '전체' : 'See all'}
+            {t(lang, 'see_all')}
             <ChevronRight />
           </a>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-          {idols.map((idol, i) => (
+          {idols.slice(0, 10).map((idol, i) => (
             <a
               key={idol.id}
               href="#"
               className={`card-idol group ${mounted ? 'animate-fade-in' : 'opacity-0'}`}
-              style={{ animationDelay: `${i * 0.07}s` }}
+              style={{ animationDelay: `${i * 0.06}s` }}
             >
               {/* Image */}
               <div className="relative aspect-[4/5] overflow-hidden">
@@ -402,7 +426,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Trending */}
+                {/* Trending badge */}
                 {idol.trending && (
                   <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-[#ff006e] text-[10px] font-black tracking-wide flex items-center gap-1 shadow-lg">
                     🔥 HOT
@@ -414,11 +438,19 @@ export default function Home() {
                   {idol.country}
                 </div>
 
-                {/* Bottom overlay info */}
+                {/* Like button */}
+                <button
+                  onClick={(e) => toggleLike(idol.id, e)}
+                  className={`absolute bottom-10 right-2.5 p-1.5 rounded-full transition-all ${likedIdols.has(idol.id) ? 'text-[#ff006e] bg-[#ff006e]/20' : 'text-white/50 bg-black/30 hover:text-white'}`}
+                >
+                  <HeartIcon filled={likedIdols.has(idol.id)} />
+                </button>
+
+                {/* Bottom info */}
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <p className="font-bold text-sm leading-tight truncate">{idol.name}</p>
                   <p className="text-[11px] text-white/50 mt-0.5">
-                    {formatFollowers(idol.followers)} {lang === 'zh-TW' ? '粉絲' : 'fans'}
+                    {formatFollowers(idol.followers)} {t(lang, 'fans')}
                   </p>
                 </div>
               </div>
@@ -445,18 +477,16 @@ export default function Home() {
             <div className="section-divider" />
             <div className="flex items-center gap-2">
               <span className="text-[#1db954]"><MusicIcon /></span>
-              <h2 className="text-lg sm:text-xl font-bold">
-                {lang === 'zh-TW' ? '本週熱門榜' : lang === 'ja' ? '今週のホットチャート' : lang === 'ko' ? '이번 주 인기 차트' : lang === 'th' ? 'ชาร์ตยอดนิยมสัปดาห์นี้' : 'Hot Chart This Week'}
-              </h2>
+              <h2 className="text-lg sm:text-xl font-bold">{t(lang, 'hot_chart')}</h2>
             </div>
           </div>
           <span className="text-xs text-white/30 font-medium uppercase tracking-wide">
-            {lang === 'zh-TW' ? '全球串流' : 'Global Streams'}
+            {t(lang, 'hot_chart.streams')}
           </span>
         </div>
 
         <div className="chart-container">
-          {hotChart.map((item, i) => {
+          {hotChart.map(item => {
             const trendDiff = item.prev - item.rank;
             const trendClass = trendDiff > 0 ? 'up' : trendDiff < 0 ? 'down' : 'same';
             const trendSymbol = trendDiff > 0 ? `↑${trendDiff}` : trendDiff < 0 ? `↓${Math.abs(trendDiff)}` : '—';
@@ -489,12 +519,12 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <div className="section-divider" />
             <div className="flex items-center gap-2">
-              <span className="text-[#00f4ff]"><MusicIcon /></span>
+              <span className="text-[#00f4ff]"><NewsIcon /></span>
               <h2 className="text-lg sm:text-xl font-bold">{t(lang, 'latest_news')}</h2>
             </div>
           </div>
           <a href="#" className="flex items-center gap-1 text-sm text-[#00f4ff] hover:text-[#00f4ff]/75 transition font-medium">
-            {lang === 'zh-TW' ? '全部消息' : lang === 'ja' ? 'すべて' : lang === 'ko' ? '전체 보기' : 'View all'}
+            {t(lang, 'view_all')}
             <ChevronRight />
           </a>
         </div>
@@ -510,7 +540,7 @@ export default function Home() {
               <div className="relative h-44 sm:h-52 overflow-hidden">
                 <img
                   src={item.image}
-                  alt={lang === 'zh-TW' ? item.titleCn : item.title}
+                  alt={lang === 'zh-TW' || lang === 'zh-CN' ? item.titleCn : item.title}
                   className="w-full h-full object-cover img-zoom"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
@@ -521,10 +551,10 @@ export default function Home() {
 
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-sm sm:text-base line-clamp-2 group-hover:text-[#00f4ff] transition-colors leading-snug">
-                  {lang === 'zh-TW' ? item.titleCn : item.title}
+                  {lang === 'zh-TW' || lang === 'zh-CN' ? item.titleCn : item.title}
                 </h3>
                 <p className="text-xs text-white/45 mt-2 line-clamp-2 leading-relaxed">
-                  {lang === 'zh-TW' ? item.summaryCn : item.summary}
+                  {lang === 'zh-TW' || lang === 'zh-CN' ? item.summaryCn : item.summary}
                 </p>
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
                   <div className="flex items-center gap-2 text-xs text-white/40">
@@ -552,7 +582,7 @@ export default function Home() {
             </div>
           </div>
           <a href="#" className="flex items-center gap-1 text-sm text-[#00f4ff] hover:text-[#00f4ff]/75 transition font-medium">
-            {lang === 'zh-TW' ? '加入討論' : lang === 'ja' ? '議論に参加' : lang === 'ko' ? '토론 참여' : 'Join discussion'}
+            {t(lang, 'join_discussion')}
             <ChevronRight />
           </a>
         </div>
@@ -604,14 +634,14 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-bold text-lg gradient-text">IdolRadar.club</p>
-                <p className="text-xs text-white/35">Connecting Fans Worldwide</p>
+                <p className="text-xs text-white/35">{t(lang, 'footer.tagline')}</p>
               </div>
             </div>
 
             {/* Links */}
             <div className="flex flex-wrap justify-center gap-6 text-sm text-white/40">
-              {['Privacy', 'Terms', 'Contact', 'Support'].map(l => (
-                <a key={l} href="#" className="hover:text-[#00f4ff] transition">{l}</a>
+              {(['footer.privacy', 'footer.terms', 'footer.contact', 'footer.support'] as const).map(key => (
+                <a key={key} href="#" className="hover:text-[#00f4ff] transition">{t(lang, key)}</a>
               ))}
             </div>
 
@@ -641,7 +671,7 @@ export default function Home() {
               <button
                 key={l.code}
                 onClick={() => setLang(l.code)}
-                className={`px-3 py-1.5 rounded-lg text-xs transition-all ${lang === l.code ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/60'}`}
+                className={`px-3 py-1.5 rounded-lg text-xs transition-all ${lang === l.code ? 'bg-white/10 text-white border border-white/15' : 'text-white/30 hover:text-white/60'}`}
               >
                 {l.flag} {l.name}
               </button>
@@ -649,7 +679,7 @@ export default function Home() {
           </div>
 
           <p className="text-center text-xs text-white/20 mt-6">
-            © 2025 IdolRadar.club · Made with 🎵 for fans worldwide
+            {t(lang, 'footer.copyright')}
           </p>
         </div>
       </footer>
@@ -659,11 +689,11 @@ export default function Home() {
            ======================================== */}
       <div className="bottom-nav lg:hidden">
         {[
-          { id: 'home', icon: '🏠', label: lang === 'zh-TW' ? '首頁' : lang === 'ja' ? 'ホーム' : lang === 'ko' ? '홈' : 'Home', href: '#home' },
-          { id: 'idols', icon: '⭐', label: lang === 'zh-TW' ? '偶像' : lang === 'ja' ? 'アイドル' : lang === 'ko' ? '아이돌' : 'Idols', href: '#idols' },
-          { id: 'center', icon: '', label: '', href: '#' },
-          { id: 'news', icon: '📰', label: lang === 'zh-TW' ? '新聞' : lang === 'ja' ? 'ニュース' : lang === 'ko' ? '뉴스' : 'News', href: '#news' },
-          { id: 'forum', icon: '💬', label: lang === 'zh-TW' ? '論壇' : lang === 'ja' ? 'フォーラム' : lang === 'ko' ? '포럼' : 'Forum', href: '#forum' },
+          { id: 'home', icon: '🏠', labelKey: 'nav.home', href: '#home' },
+          { id: 'idols', icon: '⭐', labelKey: 'nav.idols', href: '#idols' },
+          { id: 'center', icon: '', labelKey: '', href: '#' },
+          { id: 'news', icon: '📰', labelKey: 'nav.news', href: '#news' },
+          { id: 'forum', icon: '💬', labelKey: 'nav.forum', href: '#forum' },
         ].map(item => {
           if (item.id === 'center') {
             return (
@@ -682,7 +712,7 @@ export default function Home() {
               className={`bottom-nav-item ${activeNav === item.id ? 'active' : ''}`}
             >
               <span className="text-lg leading-none">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
+              <span className="nav-label">{t(lang, item.labelKey)}</span>
             </a>
           );
         })}
